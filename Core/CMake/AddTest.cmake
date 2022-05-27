@@ -1,7 +1,0 @@
-macro(add_test file)
-    get_filename_component(fileName ${file} NAME_WLE)
-    add_executable(${fileName} ${file})
-    target_link_libraries(${fileName} gtest_main ${PROJECT_NAME})
-    gtest_discover_tests(${fileName})
-    unset(fileName)
-endmacro()
