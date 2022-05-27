@@ -18,17 +18,21 @@ class ArrayTest : public ::testing::Test {
 		CleanupArray(a2);
 	}
 
+	static bool CompareIntegers(void *a, void *b) {
+		return *(int *)a == *(int *)b;
+	}
+
 	Array a1 = nullptr;
 	Array a2 = nullptr;
 };
 
 TEST_F(ArrayTest, IsEmptyInitially) {
-	EXPECT_EQ(ArrayLength(a1), 0);
+	EXPECT_EQ(Array_Length(a1), 0);
 }
 
 TEST_F(ArrayTest, HasLengthTen
 ) {
-	EXPECT_EQ(ArrayLength(a2), 10);
+	EXPECT_EQ(Array_Length(a2), 10);
 }
 
 TEST_F(ArrayTest, InsertAndReadFromIndex
@@ -36,11 +40,11 @@ TEST_F(ArrayTest, InsertAndReadFromIndex
 	// Arrange
 	ArrayResult result;
 	int i = 16, j;
-	result = InsertAtIndex(a2, 5, &i);
+	result = Array_InsertAtIndex(a2, 5, &i);
 	EXPECT_EQ(result, Success);
 
 	// Act
-	result = GetDataFromIndex(a2, 5, &j);
+	result = Array_GetDataFromIndex(a2, 5, &j);
 
 	// Assert
 	EXPECT_EQ(result, Success);
@@ -51,11 +55,11 @@ TEST_F(ArrayTest, WriteAtZeroIndexAndPopFront) {
 	// Arrange
 	ArrayResult result;
 	int i = 21, j;
-	result = InsertAtIndex(a2, 0, &i);
+	result = Array_InsertAtIndex(a2, 0, &i);
 	EXPECT_EQ(result, Success);
 
 	// Act
-	result = PopFront(a2, &j);
+	result = Array_PopFront(a2, &j);
 
 	// Assert
 	EXPECT_EQ(result, Success);
@@ -67,11 +71,11 @@ TEST_F(ArrayTest, WriteToIndexAndGetReference) {
 	ArrayResult result;
 	int i = 31, j;
 	int *ref;
-	result = InsertAtIndex(a2, 3, &i);
+	result = Array_InsertAtIndex(a2, 3, &i);
 	EXPECT_EQ(result, Success);
 
 	// Act
-	result = GetReference(a2, 3, (void **)(&ref));
+	result = Array_GetReference(a2, 3, (void **)(&ref));
 	j = *ref;
 
 	// Assert
@@ -84,14 +88,46 @@ TEST_F(ArrayTest, GetReferenceAndAssignReferencedValue) {
 	ArrayResult result;
 	int i = 31, j;
 	int *ref;
-	result = GetReference(a2, 8, (void **)&ref);
+	result = Array_GetReference(a2, 8, (void **)&ref);
 	EXPECT_EQ(result, Success);
 
 	// Act
 	*ref = i;
-	GetDataFromIndex(a2, 8, &j);
+	Array_GetDataFromIndex(a2, 8, &j);
 
 	// Assert
 	EXPECT_EQ(result, Success);
 	EXPECT_EQ(i, j);
+}
+
+TEST_F(ArrayTest, PushBackIncreasesArraySizeAndAddsCorrectValueAtTheLastIndex) {
+	// Arrange
+	ArrayResult result;
+	int i = 5234, initialLength = Array_Length(a1), j;
+
+	// Act
+	result = Array_PushBack(a1, &i);
+
+	// Assert
+	EXPECT_EQ(result, Success);
+	EXPECT_EQ(initialLength + 1, Array_Length(a1));
+
+	Array_GetDataFromIndex(a1, initialLength, &j);
+	EXPECT_EQ(i, j);
+	EXPECT_EQ(result, Success);
+}
+
+TEST_F(ArrayTest, GetIndexReturnsCorrectIndex) {
+	// Arrange
+	ArrayResult result;
+	int i = 31, index = 6, j;
+	result = Array_InsertAtIndex(a2, index, &i);
+	EXPECT_EQ(result, Success);
+
+	// Act
+	result = Array_GetIndex(a2, CompareIntegers, &i, &j);
+
+	// Assert
+	EXPECT_EQ(result, Success);
+	EXPECT_EQ(index, j);
 }

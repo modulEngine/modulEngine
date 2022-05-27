@@ -1,4 +1,4 @@
-file(GLOB CORE_SOURCES ./*.c)
+file(GLOB_RECURSE CORE_SOURCES ./*.c)
 
 add_library(${PROJECT_NAME} ${CORE_SOURCES})
 

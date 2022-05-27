@@ -10,6 +10,9 @@ struct Array_t {
 	uint32_t size;
 };
 
+static ArrayResult shrink(Array array);
+static ArrayResult grow(Array array);
+
 ArrayResult InitializeArray(size_t dataSize, Array *pArray) {
 	return InitializeArrayWithSize(dataSize, 0, pArray);
 }
@@ -46,7 +49,7 @@ void CleanupArray(Array array) {
 	free(array);
 }
 
-ArrayResult GetDataFromIndex(Array array, int index, void *data) {
+ArrayResult Array_GetDataFromIndex(Array array, int index, void *data) {
 	if (data == NULL) {
 		return InvalidReference;
 	}
@@ -60,7 +63,7 @@ ArrayResult GetDataFromIndex(Array array, int index, void *data) {
 	return Success;
 }
 
-ArrayResult GetReference(Array array, int index, void **reference) {
+ArrayResult Array_GetReference(Array array, int index, void **reference) {
 	if (array->length < index || index < 0) {
 		return InvalidIndex;
 	}
@@ -69,7 +72,7 @@ ArrayResult GetReference(Array array, int index, void **reference) {
 	return Success;
 }
 
-ArrayResult InsertAtIndex(Array array, int index, void *data) {
+ArrayResult Array_InsertAtIndex(Array array, int index, void *data) {
 	if (data == NULL) {
 		return InvalidReference;
 	}
@@ -82,9 +85,9 @@ ArrayResult InsertAtIndex(Array array, int index, void *data) {
 	return Success;
 }
 
-ArrayResult PopFront(Array array, void *data) {
+ArrayResult Array_PopFront(Array array, void *data) {
 	ArrayResult result;
-	if ((result = GetDataFromIndex(array, 0, data)) != Success) {
+	if ((result = Array_GetDataFromIndex(array, 0, data)) != Success) {
 		return result;
 	}
 
@@ -95,9 +98,60 @@ ArrayResult PopFront(Array array, void *data) {
 	}
 
 	array->length--;
+	return shrink(array);
+}
+
+ArrayResult Array_PushBack(Array array, void *data) {
+	ArrayResult result;
+	if (array->length + 1 > array->dataSize) {
+		if ((result = grow(array)) != Success)
+			return result;
+	}
+
+	memcpy(array->data + array->length * array->dataSize, data, array->dataSize);
+	array->length++;
+
 	return Success;
 }
 
-int ArrayLength(Array array) {
+int Array_Length(Array array) {
 	return (int)array->length;
+}
+
+ArrayResult Array_GetIndex(Array array, compareFunction compareFunction, void *searchData, int *pIndex) {
+	for (int i = 0; i < array->length; ++i) {
+		if (compareFunction(searchData, array->data + i * array->dataSize)) {
+			*pIndex = i;
+			return Success;
+		}
+	}
+
+	return NotFound;
+}
+
+ArrayResult grow(Array array) {
+	array->size *= 2;
+	void *ptr = realloc(array->data, array->dataSize * array->size);
+
+	if (ptr == NULL) {
+		return OutOfMemory;
+	}
+
+	array->data = ptr;
+	return Success;
+}
+
+ArrayResult shrink(Array array) {
+	if (array->length * 2 > array->size || array->size <= 8)
+		return Success;
+
+	array->size /= 2;
+	void *ptr = realloc(array->data, array->size * array->dataSize);
+
+	if (ptr == NULL) {
+		return OutOfMemory;
+	}
+
+	array->data = ptr;
+	return Success;
 }
