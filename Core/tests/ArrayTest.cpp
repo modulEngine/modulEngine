@@ -18,8 +18,8 @@ class ArrayTest : public ::testing::Test {
 		CleanupArray(a2);
 	}
 
-	Array a1;
-	Array a2;
+	Array a1 = nullptr;
+	Array a2 = nullptr;
 };
 
 TEST_F(ArrayTest, IsEmptyInitially) {
