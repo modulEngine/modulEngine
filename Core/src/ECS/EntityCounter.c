@@ -1,5 +1,8 @@
 #include "EntityCounter.h"
 
+// std
+#include <stdbool.h>
+
 static bool EntityCompareFunction(void *a, void *b);
 
 EntityCounter CreateEntityCounter() {
