@@ -13,7 +13,7 @@ typedef enum {
 
 typedef bool (ComparisonFunction(void *, void *));
 
-BTreeResult InitializeBTree(size_t dataSize, int keyCount, BTree *pBTree);
+BTreeResult InitializeBTree(size_t dataSize, int order, BTree *pBTree);
 void CleanupBTree(BTree btree);
 
 #endif // BTREE_H_
