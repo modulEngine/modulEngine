@@ -9,7 +9,7 @@ ComponentStorage CreateComponentStorage() {
 ComponentType RegisterComponentType(ComponentStorage componentStorage, size_t componentSize) {
 	ComponentArray a;
 	a.type = Array_Length(componentStorage.componentArrays);
-	InitializeArray(componentSize, &a.components);
+	InitializeBTree(componentSize, 3, &a.components);
 
 	Array_PushBack(componentStorage.componentArrays, &a);
 

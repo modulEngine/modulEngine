@@ -13,9 +13,11 @@ typedef struct {
 } EntityCounter;
 
 EntityCounter CreateEntityCounter();
+
 void CleanupEntityCounter(EntityCounter entityCounter);
 
 Entity AddEntity(EntityCounter entityCounter);
+
 void RemoveEntity(EntityCounter entityCounter, Entity entity);
 
 #endif //ENTITYCOUNTER_H_

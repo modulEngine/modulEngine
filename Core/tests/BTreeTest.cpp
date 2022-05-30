@@ -7,7 +7,7 @@ extern "C" {
 class BTreeTest : public ::testing::Test {
   protected:
 	void SetUp() override {
-		BTreeResult result = InitializeBTree(sizeof(int), 3, &b1);
+		Result result = InitializeBTree(sizeof(int), 3, &b1);
 		ASSERT_EQ(result, Success);
 	}
 
@@ -16,5 +16,9 @@ class BTreeTest : public ::testing::Test {
 	}
 
 	BTree b1 = nullptr;
+};
+
+TEST_F(BTreeTest, IsInitiallyEmpty) {
+	EXPECT_TRUE(BTreeIsEmpty(b1));
 }
 

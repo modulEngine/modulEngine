@@ -7,7 +7,7 @@ extern "C" {
 class ArrayTest : public ::testing::Test {
   protected:
 	void SetUp() override {
-		ArrayResult result = InitializeArray(sizeof(int), &a1);
+		Result result = InitializeArray(sizeof(int), &a1);
 		ASSERT_EQ(result, Success);
 		result = InitializeArrayWithSize(sizeof(int), 10, &a2);
 		ASSERT_EQ(result, Success);
@@ -19,7 +19,7 @@ class ArrayTest : public ::testing::Test {
 	}
 
 	static bool CompareIntegers(void *a, void *b) {
-		return *(int *)a == *(int *)b;
+		return *(int *) a == *(int *) b;
 	}
 
 	Array a1 = nullptr;
@@ -30,15 +30,13 @@ TEST_F(ArrayTest, IsEmptyInitially) {
 	EXPECT_EQ(Array_Length(a1), 0);
 }
 
-TEST_F(ArrayTest, HasLengthTen
-) {
+TEST_F(ArrayTest, HasLengthTen) {
 	EXPECT_EQ(Array_Length(a2), 10);
 }
 
-TEST_F(ArrayTest, InsertAndReadFromIndex
-) {
+TEST_F(ArrayTest, InsertAndReadFromIndex) {
 	// Arrange
-	ArrayResult result;
+	Result result;
 	int i = 16, j;
 	result = Array_InsertAtIndex(a2, 5, &i);
 	EXPECT_EQ(result, Success);
@@ -53,7 +51,7 @@ TEST_F(ArrayTest, InsertAndReadFromIndex
 
 TEST_F(ArrayTest, WriteAtZeroIndexAndPopFront) {
 	// Arrange
-	ArrayResult result;
+	Result result;
 	int i = 21, j;
 	result = Array_InsertAtIndex(a2, 0, &i);
 	EXPECT_EQ(result, Success);
@@ -68,14 +66,14 @@ TEST_F(ArrayTest, WriteAtZeroIndexAndPopFront) {
 
 TEST_F(ArrayTest, WriteToIndexAndGetReference) {
 	// Arrange
-	ArrayResult result;
+	Result result;
 	int i = 31, j;
 	int *ref;
 	result = Array_InsertAtIndex(a2, 3, &i);
 	EXPECT_EQ(result, Success);
 
 	// Act
-	result = Array_GetReference(a2, 3, (void **)(&ref));
+	result = Array_GetReference(a2, 3, (void **) (&ref));
 	j = *ref;
 
 	// Assert
@@ -85,10 +83,10 @@ TEST_F(ArrayTest, WriteToIndexAndGetReference) {
 
 TEST_F(ArrayTest, GetReferenceAndAssignReferencedValue) {
 	// Arrange
-	ArrayResult result;
+	Result result;
 	int i = 31, j;
 	int *ref;
-	result = Array_GetReference(a2, 8, (void **)&ref);
+	result = Array_GetReference(a2, 8, (void **) &ref);
 	EXPECT_EQ(result, Success);
 
 	// Act
@@ -102,7 +100,7 @@ TEST_F(ArrayTest, GetReferenceAndAssignReferencedValue) {
 
 TEST_F(ArrayTest, PushBackIncreasesArraySizeAndAddsCorrectValueAtTheLastIndex) {
 	// Arrange
-	ArrayResult result;
+	Result result;
 	int i = 5234, initialLength = Array_Length(a1), j;
 
 	// Act
@@ -119,7 +117,7 @@ TEST_F(ArrayTest, PushBackIncreasesArraySizeAndAddsCorrectValueAtTheLastIndex) {
 
 TEST_F(ArrayTest, GetIndexReturnsCorrectIndex) {
 	// Arrange
-	ArrayResult result;
+	Result result;
 	int i = 31, index = 6, j;
 	result = Array_InsertAtIndex(a2, index, &i);
 	EXPECT_EQ(result, Success);

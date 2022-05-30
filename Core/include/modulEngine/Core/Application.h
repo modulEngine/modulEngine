@@ -21,7 +21,9 @@ typedef void (PFN_lsApplicationErrorCallback(const char *errorMessage));
 void lsCreateApplication(LsApplicationCreateInfo *pCreateInfo,
                          LsApplication *pApplication,
                          PFN_lsApplicationErrorCallback applicationErrorCallback);
+
 void lsRunApplication(LsApplication application);
+
 void lsDestroyApplication(LsApplication application);
 
 #endif //APPLICATION_H_

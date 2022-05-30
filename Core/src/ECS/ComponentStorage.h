@@ -26,7 +26,9 @@ typedef struct {
 } ComponentStorage;
 
 ComponentStorage CreateComponentStorage();
+
 ComponentType RegisterComponentType(ComponentStorage componentStorage, size_t componentSize);
+
 Component AddComponent(ComponentStorage componentStorage);
 
 #endif // COMPONENTSTORAGE_H_

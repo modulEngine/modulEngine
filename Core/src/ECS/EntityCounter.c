@@ -43,5 +43,5 @@ void RemoveEntity(EntityCounter entityCounter, Entity entity) {
 }
 
 bool EntityCompareFunction(void *a, void *b) {
-	return *(uint64_t *)a == *(uint64_t *)b;
+	return *(uint64_t *) a == *(uint64_t *) b;
 }

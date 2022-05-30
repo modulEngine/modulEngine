@@ -14,8 +14,7 @@ bool lsUpdateApplication(struct LsApplication_T *pApplication);
 
 bool lsCreateInstance(struct LsApplication_T *pApplication, PFN_lsApplicationErrorCallback errorCallback);
 
-void lsCreateApplication(LsApplicationCreateInfo *pCreateInfo,
-                         LsApplication *pApplication,
+void lsCreateApplication(LsApplicationCreateInfo *pCreateInfo, LsApplication *pApplication,
                          PFN_lsApplicationErrorCallback applicationErrorCallback) {
 	struct LsApplication_T *result = malloc(sizeof(struct LsApplication_T));
 
@@ -23,12 +22,8 @@ void lsCreateApplication(LsApplicationCreateInfo *pCreateInfo,
 	result->version = pCreateInfo->version;
 	result->windowCount = 0;
 
-	fprintf(stdout,
-	        "Created application: %s, version: %d.%d.%d",
-	        result->pName,
-	        GET_MAJOR_VERSION(result->version),
-	        GET_MINOR_VERSION(result->version),
-	        GET_PATCH_VERSION(result->version));
+	fprintf(stdout, "Created application: %s, version: %d.%d.%d", result->pName, GET_MAJOR_VERSION(result->version),
+	        GET_MINOR_VERSION(result->version), GET_PATCH_VERSION(result->version));
 
 	*pApplication = result;
 }

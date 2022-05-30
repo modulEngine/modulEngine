@@ -1,4 +1,5 @@
 # Structure
+
 ```
 ComponentGroup1 > Component1 > entityID + data
                 > Component2 > entityID + data
@@ -26,18 +27,23 @@ System > ComponentSet1 > ComponentRef1 > Component1
 ```
 
 ## Internal Managing Systems
+
 ### entityManager
+
 - keeps track of IDs that can be used for entities.
 
 ### ComponentManager
+
 - creates and removes components
 - each component gets added to a componentGroup of its type
 - a component exists of the ID of the "owning" entity and the data in it
 
 ### SystemManager
+
 - handles the creation of systems
 - every time an entity has a component added it checks if a system has a component requirement that gets fulfilled
-  - if so add the entities components to said system
+    - if so add the entities components to said system
 - a system can have componentTypes it does not allow
-  - this means that if an entity gains a component that is "excluded" by a system the componentSet that belongs to that entity gets removed
+    - this means that if an entity gains a component that is "excluded" by a system the componentSet that belongs to
+      that entity gets removed
 - a system has a list of componentSets, these contain references to components that all belong to the same entity
