@@ -114,6 +114,17 @@ static void search(BTree bTree, int value, int *pos, Node *myNode) {
 	return;
 }
 
+static void traversal(Node *myNode) {
+	if (myNode) {
+		int i;
+		for (i = 0; i < myNode->count; ++i) {
+			traversal(myNode->link[i]);
+			// value in myNode->value[i];
+		}
+		traversal(myNode->link[i]);
+	}
+}
+
 Result InitializeBTree(size_t dataSize, int order, BTree *pBTree) {
 	return Success;
 }
