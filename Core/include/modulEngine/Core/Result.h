@@ -7,7 +7,9 @@ typedef enum {
 	InvalidIndex,
 	InvalidReference,
 	OutOfMemory,
-	NotFound
+	NotFound,
+	ArgumentNull,
+	InvalidArgument
 } Result;
 
 #endif // RESULT_H_

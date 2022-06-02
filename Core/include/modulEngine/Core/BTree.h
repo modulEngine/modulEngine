@@ -17,5 +17,7 @@ void CleanupBTree(BTree btree);
 
 bool BTreeIsEmpty(BTree btree);
 
+void BTree_Insert(BTree bTree, int value);
+
 #endif // BTREE_H_
 

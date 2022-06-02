@@ -22,3 +22,8 @@ TEST_F(BTreeTest, IsInitiallyEmpty) {
 	EXPECT_TRUE(BTreeIsEmpty(b1));
 }
 
+TEST_F(BTreeTest, AfterInsertValueBTreeNotEmpty) {
+
+	BTree_Insert(b1, )
+}
+
